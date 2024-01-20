@@ -1,0 +1,31 @@
+<!-- business_app/templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Finder</title>
+</head>
+<body>
+    <h1>Welcome to Finding-Business.io</h1>
+    <p>With our software, you can find the perfect location to start your new business.</p>
+
+    <form method="post" action="{% url 'index' %}">
+        {% csrf_token %}
+        <label for="location">Enter a location:</label>
+        <input type="text" id="location" name="location" required>
+
+        <label for="type1">Enter type of Business:</label>
+        <input type="text" id="type1" name="type1" required>
+
+        <button type="submit">Get list of similar businesses</button>
+    </form>
+
+    <!-- Display the table if it exists -->
+    {% if table %}}
+        {{ table|safe }}
+    {% endif %}
+</body>
+</html>
