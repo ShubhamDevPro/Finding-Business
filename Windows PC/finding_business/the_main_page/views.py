@@ -30,11 +30,11 @@ def tools(request, tool):
         return HttpResponseNotFound("This tool is unavailable yet")
 
 
-def tools_by_numbers(request, tool_number):
+def tools_by_numbers(request, tool):
     # .keys() returns a list of the keys of the dictionary
     tool_list = list(tool_dict.keys())
-    redirect_tool = tool_list[tool_number]
-    return HttpResponseRedirect("/tool/"+redirect_tool)
+    redirect_tool = tool_list[tool]
+    return HttpResponseRedirect("/team_area51_hackathon/"+redirect_tool)
     print(redirect_tool)
 
 
