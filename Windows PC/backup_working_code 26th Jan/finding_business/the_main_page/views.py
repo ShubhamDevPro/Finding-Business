@@ -23,6 +23,18 @@ tool_dict = {
 }
 
 
+def index(request):
+    list_items = ""
+    tool_list = list(tool_dict.keys())
+    for tool1 in tool_list:
+        capitalised_tool = tool1.capitalize()
+        tool_path = reverse("tools", args=[tool1])
+        list_items += f"<li><a href =\"{tool_path}\">{capitalised_tool}</a></li>"
+    response_data = f"<ul>{list_items}</ul>"
+    return HttpResponse(response_data)
+# "<li><a href="...."> tool1 </a> </li><li><a href="...."> tool2 </a> </li>................. "
+
+
 def tools(request, tool):
     try:
         text = tool_dict[tool]
