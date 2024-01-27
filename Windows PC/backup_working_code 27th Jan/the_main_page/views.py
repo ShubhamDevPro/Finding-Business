@@ -22,15 +22,23 @@ tool_dict = {
     "suitable_location": "location is suitable",
     "analyse_transportation": "ta ta ta ta"
 }
+tool_dict_display = {
+    "viewing_map": "View Map of the Area",
+    "list_of_similar_business": "Get list of similar business in the Area",
+    "suitable_location": "Find the perfect location",
+    "analyse_transportation": "Analyse transportation facilities of an Area"
+}
+
+tool_list = list(tool_dict.keys())
 
 
 def index(request):
     list_items = ""
-    tool_list = list(tool_dict.keys())
     for tool1 in tool_list:
-        capitalised_tool = tool1.capitalize()
+        # capitalised_tool = tool1.capitalize()
+        display_text = tool_dict_display[tool1]
         tool_path = reverse("tools", args=[tool1])
-        list_items += f"<li><a href =\"{tool_path}\">{capitalised_tool}</a></li>"
+        list_items += f"<li><a href =\"{tool_path}\">{display_text}</a></li><br>"
     response_data = f"<ul>{list_items}</ul>"
     return HttpResponse(response_data)
 # "<li><a href="...."> tool1 </a> </li><li><a href="...."> tool2 </a> </li>................. "
@@ -39,7 +47,7 @@ def index(request):
 def tools(request, tool):
     try:
         text = tool_dict[tool]
-        return render(request, "the_main_page/main.html", {
+        return render(request, "the_main_page/option1.html", {
             "text": text
         })
         """

@@ -29,10 +29,11 @@ tool_dict_display = {
     "analyse_transportation": "Analyse transportation facilities of an Area"
 }
 
+tool_list = list(tool_dict.keys())
+
 
 def index(request):
     list_items = ""
-    tool_list = list(tool_dict.keys())
     for tool1 in tool_list:
         # capitalised_tool = tool1.capitalize()
         display_text = tool_dict_display[tool1]
@@ -46,7 +47,7 @@ def index(request):
 def tools(request, tool):
     try:
         text = tool_dict[tool]
-        return render(request, "the_main_page/main.html", {
+        return render(request, "the_main_page/option1.html", {
             "text": text
         })
         """

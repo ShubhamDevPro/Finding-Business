@@ -7,5 +7,4 @@ urlpatterns = [
     # path("option_1/", views.option_1),
     path("<int:tool>/", views.tools_by_numbers),
     path("<str:tool>/", views.tools, name="tools"),
-
 ]

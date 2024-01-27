@@ -1,15 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
-from django.template.loader import render_to_string
 # HttpResponse -> Object
 
 # Create your views here.
 
-"""
+
 def main_page(request):  # a parameter "request" is passed and the function returns a response
     return HttpResponse("this is the main page")
-"""
+
 
 """
 def option_1(request):
@@ -39,13 +38,7 @@ def index(request):
 def tools(request, tool):
     try:
         text = tool_dict[tool]
-        return render(request, "the_main_page/main.html", {
-            "text": text
-        })
-        """
-        response_data = render_to_string("the_main_page/main.html")
-        return HttpResponse(response_data)
-        """
+        return HttpResponse(text)
     except:
         return HttpResponseNotFound("This tool is unavailable yet")
 
