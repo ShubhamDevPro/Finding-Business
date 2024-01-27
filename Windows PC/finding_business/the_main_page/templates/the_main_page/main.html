@@ -7,9 +7,9 @@
   </head>
   <body>
     <li>{{text|title}}</li>
-    {% for tool in tool_list%}
-    {{ display_text = tool_dict_display[tool1]}}
-    <li><a href="{%url "tools" %}">{{tool|title}}</a></li>
+    {% for tool1 in tool_list%}
+    <!--{{ display_text = tool_dict_display[tool1]}}-->
+    <li><a href="{%url "tools" tool=tool1%}">{{tool|title}}</a></li>
     {% endfor %}
   </body>
 </html>
