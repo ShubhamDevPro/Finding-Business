@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finding Business</title>
+  </head>
+  <body>
+    {% load custom_filters %}
+    <h1>{{ text|title }}</h1>
+    <ul>
+      {% for tool1 in tool_list %}
+      <li>
+        <a href="{% url 'tools' tool1 %}">
+          {{ tool_dict_display|get_item:tool1|title }}</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
+<!--{% with display_text=tool_dict_display.tool1 %}
+{% endwith %}-->

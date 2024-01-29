@@ -31,10 +31,8 @@ def index(request):
 """
 
 def tools(request, tool):
-    tool_path = reverse("tools", args=[tool])
-    return render(request,tool_path)
-    #display_text = tool_dict_display[tool]
-    #return HttpResponse(display_text)
+    display_text = tool_dict_display[tool]
+    return HttpResponse(display_text)
     """
     list_items = ""
     for tool1 in tool_list:
