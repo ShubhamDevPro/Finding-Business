@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Finding Business</title>
+    <title>{% block page_title%} Finding Business</title>
+    {% endblock %}
   </head>
   <body>
-    <h1>Viewing Map</h1>
-    <li>{{text|title}}</li>
+    {%block body_content%} FallbackContent{%endblock%}
   </body>
 </html>
