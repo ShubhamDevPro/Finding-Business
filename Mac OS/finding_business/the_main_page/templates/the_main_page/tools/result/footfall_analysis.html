@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Places</title>
+  </head>
+  <body>
+    <h1>Places</h1>
+
+    <ul>
+      {% for place in places %}
+      <li>
+        {{ place.name }}: {{ place.rating }} ({{ place.reviews }} reviews)
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% if suitable_location %}
+    <p>This location is suitable for opening a {{ business_type }} store.</p>
+    {% else %}
+    <p>
+      This location is not suitable for opening a {{ business_type }} store.
+    </p>
+    {% endif %}
+  </body>
+</html>

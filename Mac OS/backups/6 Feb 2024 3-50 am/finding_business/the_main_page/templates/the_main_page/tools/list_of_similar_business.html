@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Input Numbers</title>
+  </head>
+  <body>
+    <h1>Enter required details:</h1>
+    <form action="{% url 'show_result' %}" method="POST">
+      {% csrf_token %}
+      <input type="number" name="number1" placeholder="Enter first number" />
+      <input type="number" name="number2" placeholder="Enter second number" />
+      <button type="submit">Add</button>
+    </form>
+  </body>
+</html>

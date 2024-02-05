@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Input Numbers</title>
+  </head>
+  <body>
+    <h1>Enter required details:</h1>
+    <form action="{% url 'footfall_analysis' %}" method="get">
+      {% csrf_token %}
+      <input
+        type="string"
+        name="location"
+        placeholder="Enter a location (e.g. address, city, or coordinates): "
+      />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

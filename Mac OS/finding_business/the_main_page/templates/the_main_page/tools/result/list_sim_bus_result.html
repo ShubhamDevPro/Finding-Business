@@ -1,0 +1,16 @@
+<!-- your_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Results</title>
+  </head>
+  <body>
+    <h1>Businesses Near Location</h1>
+    {% if error_message %}
+    <p>{{ error_message }}</p>
+    {% else %} {% autoescape off %} {{ table_html|safe }} {% endautoescape %}
+    {%endif%}
+  </body>
+</html>

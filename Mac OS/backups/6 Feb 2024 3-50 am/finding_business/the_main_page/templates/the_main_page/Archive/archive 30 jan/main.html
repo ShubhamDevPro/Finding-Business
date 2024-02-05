@@ -1,0 +1,13 @@
+{%extends "base.html"%} {%load custom_filters%}
+<!-- Content -->
+{%block white_box %}
+<h2>What is your Goal Today ? 🤵💼</h2>
+{% for tool1 in tool_list %}
+<button
+  id="button-54"
+  role="link"
+  onclick="window.location.href='{% url 'tools' tool1 %}"
+>
+  {{ tool_dict_display|get_item:tool1 }}
+</button>
+{% endfor %} {%endblock%}

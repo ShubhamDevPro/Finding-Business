@@ -1,0 +1,37 @@
+{%load static%}
+<link rel="stylesheet" href="{%static "the_main_page/base.css" %}" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block page_title %} Finding Business {% endblock %}</title>
+  </head>
+  <body>
+    <header class="header-outer">
+      <div class="header-inner responsive-wrapper">
+        <div class="header-logo">
+          <img src="{% static "the_main_page/images/FB2.png" %}" />
+        </div>
+        <nav class="header-navigation">
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="{%url 'the_main_page'%}">Tools</a>
+          <a href="#">Contact Us</a>
+          <button>Menu</button>
+        </nav>
+      </div>
+    </header>
+    
+  <main class="main">
+    <div class="main-content responsive-wrapper">
+      <article class="widget">
+        {%block white_box%}
+        Nohting to show here 😉
+        {%endblock%}
+      </article>
+    </div>
+  </main>
+</body>
+</html>
+</html>
