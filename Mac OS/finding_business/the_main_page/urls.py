@@ -8,6 +8,8 @@ urlpatterns = [
          name='show_result_list_of_sim_bus'),
     path('result_analysis/', views.footfall_analysis,
          name='footfall_analysis'),
+    path('result_transport/', views.display_transport_distances,
+         name='display_transport_distances'),
     path("<int:tool>/", views.tools_by_numbers),
     path("<str:tool>/", views.tools, name="tools"),
 ]

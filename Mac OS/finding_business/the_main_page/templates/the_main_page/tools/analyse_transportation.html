@@ -1,1 +1,9 @@
-Analyse the transportation in the Area
+{%extends "base.html"%} {%block white_box %}
+<h1>Anaylyse Transportation Facilities🤵💼</h1>
+<form action="{% url 'display_transport_distances' %}" method="get">
+  {% csrf_token %}
+  <!--<input type="string" name="type" placeholder="Enter Type of Business" />-->
+  <input type="string" name="location" placeholder="Enter Location" />
+  <button id="button-54" type="submit">Submit</button>
+</form>
+{%endblock%}
