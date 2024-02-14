@@ -3,10 +3,122 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Finding Business</title>
+    <title>Document</title>
+    <style>
+      #container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #map {
+        height: 80vh;
+        width: 80vw;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
   </head>
   <body>
-    <h1>Viewing Map</h1>
-    <li>{{text|title}}</li>
+    <div id="container">
+      <h1 id="info"></h1>
+      <div id="map"></div>
+    </div>
+
+    <div id="map2" style="height: 200px; width: 200px"></div>
+    <script>
+      function initMap() {
+        let mapOptions = {
+          center: { lat: 28.682946, lng: 77.06764 },
+          zoom: 12,
+        };
+        let map = new google.maps.Map(
+          document.getElementById("map"),
+          mapOptions
+        );
+
+        let markerOptions = {
+          position: new google.maps.LatLng(28.682946, 77.06764),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker = new google.maps.Marker(markerOptions);
+
+        let markerOptions2 = {
+          position: new google.maps.LatLng(28.652946, 77.08764),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker2 = new google.maps.Marker(markerOptions2);
+
+        let markerOptions3 = {
+          position: new google.maps.LatLng(28.672946, 77.06564),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker3 = new google.maps.Marker(markerOptions3);
+
+        let markerOptions4 = {
+          position: new google.maps.LatLng(28.682946, 77.06764),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker4 = new google.maps.Marker(markerOptions4);
+
+        let markerOptions5 = {
+          position: new google.maps.LatLng(28.682946, 77.06764),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker5 = new google.maps.Marker(markerOptions5);
+
+        let markerOptions6 = {
+          position: new google.maps.LatLng(28.682946, 77.06764),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker6 = new google.maps.Marker(markerOptions6);
+
+        let markerOptions7 = {
+          position: new google.maps.LatLng(28.682946, 77.06764),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker7 = new google.maps.Marker(markerOptions7);
+
+        let markerOptions8 = {
+          position: new google.maps.LatLng(28.682946, 77.06764),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker8 = new google.maps.Marker(markerOptions8);
+
+        let markerOptions9 = {
+          position: new google.maps.LatLng(28.682946, 77.06764),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker9 = new google.maps.Marker(markerOptions9);
+
+        let markerOptions10 = {
+          position: new google.maps.LatLng(28.682946, 77.06764),
+          map: map, // Assign the map object to the map property
+        };
+
+        let marker10 = new google.maps.Marker(markerOptions10);
+      }
+    </script>
+    <!--<script src="/API_KEY.js"></script>-->
+    <!-- Ensure that the API key is properly included -->
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5M4ndSUdCKL2nib531J1rXjoX6lGYgnE&callback=initMap"
+    ></script>
   </body>
 </html>

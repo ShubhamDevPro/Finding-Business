@@ -13,7 +13,7 @@ tool_dict = {
 }
 tool_dict_display = {
     "viewing_map": "View Map of the Area",
-    "list_of_similar_business": "Get list of similar business",
+    "list_of_similar_business": "Analyse Competition of a particular area",
     "suitable_location": "Find the perfect location",
     "analyse_transportation": "Analyse transportation facilities"
 }

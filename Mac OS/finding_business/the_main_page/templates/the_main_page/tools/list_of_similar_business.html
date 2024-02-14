@@ -2,8 +2,9 @@
 <h1>Enter required details 🤵💼</h1>
 <form action="{% url 'show_result_list_of_sim_bus' %}" method="get">
   {% csrf_token %}
-  <input type="string" name="type" placeholder="Enter Type of Business" />
   <input type="string" name="location" placeholder="Enter Location" />
+  <input type="string" name="type" placeholder="Enter Type of Business" />
+
   <button id="button-54" type="submit">Submit</button>
 </form>
 {%endblock%}
