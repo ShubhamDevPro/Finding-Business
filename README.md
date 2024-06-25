@@ -17,7 +17,7 @@ This project offers valuable insights into the suitability of business locations
 
 ## Prerequisites
 
-- Python 3.x
+- Python 3.9
 - Flask
 - MongoDB
 - Google Maps API Key
@@ -26,8 +26,8 @@ This project offers valuable insights into the suitability of business locations
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/yourusername/entrepreneur-support-services.git
-   cd entrepreneur-support-services
+   git clone https://github.com/yourusername/entrepreneur-support-services](https://github.com/ShubhamDevPro/Finding-Business.git
+   cd Finding-Business
    ```
 
 2. **Set up a virtual environment**:
@@ -92,9 +92,6 @@ entrepreneur-support-services/
 5. Push to the branch (`git push origin feature-branch`).
 6. Open a Pull Request.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ## Acknowledgements
 
