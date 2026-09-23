@@ -1,0 +1,42 @@
+# Environment variables and secrets
+.env
+.env.*
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# API keys and credentials
+*api_key*
+*.key
+*.pem
+*credentials*
+shubham_api_key.txt
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Databases
+*.sqlite3
+db.sqlite3
+
+# IDEs and OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea/
+.vscode/

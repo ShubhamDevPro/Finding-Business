@@ -1,10 +1,41 @@
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 import googlemaps
 from prettytable import PrettyTable
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
 from django.template.loader import render_to_string
-api_key = "AIzaSyB5M4ndSUdCKL2nib531J1rXjoX6lGYgnE"
+
+# Load environment variables from .env
+env_file = Path(__file__).resolve().parent.parent.parent.parent / '.env'
+if env_file.exists():
+    load_dotenv(dotenv_path=env_file)
+load_dotenv()
+
+
+def get_google_maps_api_key():
+    key = os.environ.get("GOOGLE_MAPS_API_KEY")
+    if key and key.strip():
+        return key.strip()
+    for candidate in [
+        Path(__file__).resolve().parent.parent / "shubham_api_key.txt",
+        Path(__file__).resolve().parent.parent.parent.parent / "shubham_api_key.txt",
+    ]:
+        if candidate.exists():
+            try:
+                with open(candidate, "r") as f:
+                    val = f.read().strip()
+                    if val and not val.startswith("..."):
+                        return val
+            except Exception:
+                pass
+    return ""
+
+
+api_key = get_google_maps_api_key()
+
 tool_dict = {
     "viewing_map": "this is the map",
     "suitable_location": "location is suitable",
@@ -28,35 +59,16 @@ def index(request):
             "tool_dict_display": tool_dict_display,
             "tool_dict": tool_dict}
         )
-    except:
+    except Exception:
         response_data = render_to_string("404.html")
         return HttpResponseNotFound(response_data)
-
-    """
-    try:
-        
-    except:
-        return HttpResponseNotFound("This tool is unavailable yet")
-"""
 
 
 def tools(request, tool):
     try:
-        # tool_path = reverse("tools", args=[tool])
-        tool_path = "the_main_page/tools/"+tool+".html"
-        return render(request, tool_path)
-        # display_text = tool_dict_display[tool]
-        # return HttpResponse(display_text)
-        """
-        list_items = ""
-        for tool1 in tool_list:
-            display_text = tool_dict_display[tool1]
-            tool_path = reverse("tools", args=[tool1])
-            list_items += f"<li><a href =\"{tool_path}\">{display_text}</a></li><br>"
-        response_data = f"<ul>{list_items}</ul>"
-        return HttpResponse(response_data)
-        """
-    except:
+        tool_path = "the_main_page/tools/" + tool + ".html"
+        return render(request, tool_path, {"api_key": get_google_maps_api_key()})
+    except Exception:
         response_data = render_to_string("404.html")
         return HttpResponseNotFound(response_data)
 
@@ -73,108 +85,107 @@ def tools_by_numbers(request, tool):
 def show_result_list_of_sim_bus(request):
     x = PrettyTable()
     x.field_names = ["Business", "Address"]
-    api_key = "AIzaSyB5M4ndSUdCKL2nib531J1rXjoX6lGYgnE"
-    gmaps = googlemaps.Client(api_key)
+    current_key = get_google_maps_api_key()
+    if not current_key:
+        return HttpResponse("Google Maps API key not found. Please set GOOGLE_MAPS_API_KEY in your .env file.", status=500)
+    gmaps = googlemaps.Client(current_key)
     location = request.GET.get('location')
-    geocode_result = gmaps.geocode(location)
-    lat = geocode_result[0]['geometry']['location']['lat']
-    lng = geocode_result[0]['geometry']['location']['lng']
-    type1 = request.GET.get('type')
-    type_mapping = {
-        'jeweller': 'jewelry_store',
-        'ca office': 'accounting',
-        'barber': 'beauty_salon',
-        'hair salon': 'beauty_salon',
-        'stationary': 'book_store',
-        'library': 'book_store',
-        'coffee shop': 'cafe',
-        'chemist': 'pharmacy',
-        'drug store': 'pharmacy',
-        'petrol pump': 'gas_station',
-        'fuel store': 'gas_station',
-        'cinema': 'movie_theatre',
-        'film hall': 'movie_theatre',
-        'gym': 'fitness_centre',
-        'bar': 'night_club',
-        'pub': 'night_club',
-        'supermarket': 'home_goods_store',
-        'grocery shop': 'home_goods_store',
-        'eyewear shop': 'optical_store',
-        'optician': 'optical_store',
-        'dental clinic': 'dentist',
-        'tooth doctor': 'dentist',
-        'cloth wash': 'laundry',
-        'laundry store': 'laundry',
-        'clinic': 'hospital',
-        'chidiya ghar': 'zoo',
-        'mechanic': 'car_repair_shop',
-        'auto repair shop': 'car_repair_shop',
-        'cake shop': 'bakery',
-        'pastry shop': 'bakery',
-        'art gallery': 'museum',
-        'flower shop': 'florist',
-        'floral boutique': 'florist',
-        'mall': 'shopping_mall',
+    try:
+        geocode_result = gmaps.geocode(location)
+        if not geocode_result:
+            return HttpResponse(f"No results found for the entered location: {location}")
+        lat = geocode_result[0]['geometry']['location']['lat']
+        lng = geocode_result[0]['geometry']['location']['lng']
+        type1 = request.GET.get('type', '')
+        type_mapping = {
+            'jeweller': 'jewelry_store',
+            'ca office': 'accounting',
+            'barber': 'beauty_salon',
+            'hair salon': 'beauty_salon',
+            'stationary': 'book_store',
+            'library': 'book_store',
+            'coffee shop': 'cafe',
+            'chemist': 'pharmacy',
+            'drug store': 'pharmacy',
+            'petrol pump': 'gas_station',
+            'fuel store': 'gas_station',
+            'cinema': 'movie_theatre',
+            'film hall': 'movie_theatre',
+            'gym': 'fitness_centre',
+            'bar': 'night_club',
+            'pub': 'night_club',
+            'supermarket': 'home_goods_store',
+            'grocery shop': 'home_goods_store',
+            'eyewear shop': 'optical_store',
+            'optician': 'optical_store',
+            'dental clinic': 'dentist',
+            'tooth doctor': 'dentist',
+            'cloth wash': 'laundry',
+            'laundry store': 'laundry',
+            'clinic': 'hospital',
+            'chidiya ghar': 'zoo',
+            'mechanic': 'car_repair_shop',
+            'auto repair shop': 'car_repair_shop',
+            'cake shop': 'bakery',
+            'pastry shop': 'bakery',
+            'art gallery': 'museum',
+            'flower shop': 'florist',
+            'floral boutique': 'florist',
+            'mall': 'shopping_mall',
+            'liquor shop': 'liquor_store',
+            'liquor store': 'liquor_store',
+        }
 
-    }
+        place_type = type_mapping.get(type1.lower().strip() if type1 else '', type1)
 
-    # Use the mapping or default to user input
-    place_type = type_mapping.get(type1, type1)
+        places_result = gmaps.places_nearby(
+            location=(lat, lng), radius=500, type=place_type)
+        for place in places_result.get('results', []):
+            x.add_row([place.get('name', 'N/A'), place.get('vicinity', 'N/A')])
 
-    places_result = gmaps.places_nearby(
-        location=(lat, lng), radius=500, type=place_type)
-    for place in places_result['results']:
-        x.add_row([place['name'], place['vicinity']])
-
-    table_html = x.get_html_string()
-    return render(request, "the_main_page/tools/result/list_sim_bus_result.html", {'table_html': table_html})
-
-    if request.method == 'POST':
-        number1 = int(request.POST.get('number1'))
-        number2 = int(request.POST.get('number2'))
-        result = number1 + number2
-        tool_path = reverse("show_result")
-        # return render(request, 'list_sum_bus_result.html', {'result': result})
-        return render(request, "the_main_page/tools/result/list_sim_bus_result.html", {
-            "result": result}
-        )
-    else:
-        # Handle GET requests
-        return render(request, 'list_sim_bus_result.html')
+        table_html = x.get_html_string()
+        return render(request, "the_main_page/tools/result/list_sim_bus_result.html", {'table_html': table_html})
+    except Exception as e:
+        return HttpResponse(f"Error fetching Google Maps data: {e}", status=500)
 
 
 def footfall_analysis(request):
-
-    gmaps = googlemaps.Client(api_key)
+    current_key = get_google_maps_api_key()
+    if not current_key:
+        return HttpResponse("Google Maps API key not found. Please set GOOGLE_MAPS_API_KEY in your .env file.", status=500)
+    gmaps = googlemaps.Client(current_key)
     location = request.GET.get('location')
-    # type1 = request.GET.get('type')
-    geocode_result = gmaps.geocode(location)
-    lat = geocode_result[0]['geometry']['location']['lat']
-    lng = geocode_result[0]['geometry']['location']['lng']
-    business_type = request.GET.get('type')
-    radius = 1000
-    places_result = gmaps.places_nearby(
-        location=(lat, lng), radius=radius, type=business_type)
-    total_reviews = 0
-    num_businesses = 0
-    output_data = []
-    for place in places_result['results']:
-        place_details = gmaps.place(place['place_id'], fields=[
-                                    'name', 'rating', 'user_ratings_total'])
-        if 'rating' in place_details['result'] and 'user_ratings_total' in place_details['result']:
-            total_reviews += place_details['result']['user_ratings_total']
-            num_businesses += 1
-            output_data.append({
-                'name': place_details['result']['name'],
-                'rating': place_details['result']['rating'],
-                'total_reviews': place_details['result']['user_ratings_total']
-            })
-    print(output_data)
-    return render(request, "the_main_page/tools/result/footfall_analysis.html", {'output_data': output_data})
+    try:
+        geocode_result = gmaps.geocode(location)
+        if not geocode_result:
+            return HttpResponse(f"No results found for the entered location: {location}")
+        lat = geocode_result[0]['geometry']['location']['lat']
+        lng = geocode_result[0]['geometry']['location']['lng']
+        business_type = request.GET.get('type')
+        radius = 1000
+        places_result = gmaps.places_nearby(
+            location=(lat, lng), radius=radius, type=business_type)
+        total_reviews = 0
+        num_businesses = 0
+        output_data = []
+        for place in places_result.get('results', []):
+            place_details = gmaps.place(place['place_id'], fields=[
+                                        'name', 'rating', 'user_ratings_total'])
+            if 'rating' in place_details.get('result', {}) and 'user_ratings_total' in place_details.get('result', {}):
+                total_reviews += place_details['result']['user_ratings_total']
+                num_businesses += 1
+                output_data.append({
+                    'name': place_details['result']['name'],
+                    'rating': place_details['result']['rating'],
+                    'total_reviews': place_details['result']['user_ratings_total']
+                })
+        return render(request, "the_main_page/tools/result/footfall_analysis.html", {'output_data': output_data})
+    except Exception as e:
+        return HttpResponse(f"Error fetching Google Maps data: {e}", status=500)
 
 
-def get_transport_distances(api_key, origin, destination_type):
-    gmaps = googlemaps.Client(api_key)
+def get_transport_distances(current_key, origin, destination_type):
+    gmaps = googlemaps.Client(current_key)
 
     transport_stations = gmaps.places_nearby(
         location=origin,
@@ -182,7 +193,7 @@ def get_transport_distances(api_key, origin, destination_type):
         type=destination_type
     )
 
-    if not transport_stations['results']:
+    if not transport_stations.get('results'):
         return {destination_type: "N/A"}
 
     transport_station_location = transport_stations['results'][0]['geometry']['location']
@@ -204,28 +215,34 @@ def get_transport_distances(api_key, origin, destination_type):
 
 
 def display_transport_distances(request):
+    current_key = get_google_maps_api_key()
+    if not current_key:
+        return HttpResponse("Google Maps API key not found. Please set GOOGLE_MAPS_API_KEY in your .env file.", status=500)
     location = request.GET.get('location')
-    gmaps = googlemaps.Client(api_key)
-    geocode_result = gmaps.geocode(location)
+    gmaps = googlemaps.Client(current_key)
+    try:
+        geocode_result = gmaps.geocode(location)
 
-    if not geocode_result:
-        print("No results found for the entered location.")
-        return
+        if not geocode_result:
+            return HttpResponse(f"No results found for the entered location: {location}")
 
-    origin = (geocode_result[0]['geometry']['location']['lat'],
-              geocode_result[0]['geometry']['location']['lng'])
+        origin = (geocode_result[0]['geometry']['location']['lat'],
+                  geocode_result[0]['geometry']['location']['lng'])
 
-    metro_distance = get_transport_distances(api_key, origin, "subway_station")
-    bus_station_distance = get_transport_distances(
-        api_key, origin, "bus_station")
-    nearest_public_transport_distance = get_transport_distances(
-        api_key, origin, "transit_station")
+        metro_distance = get_transport_distances(current_key, origin, "subway_station")
+        bus_station_distance = get_transport_distances(
+            current_key, origin, "bus_station")
+        nearest_public_transport_distance = get_transport_distances(
+            current_key, origin, "transit_station")
 
-    x = PrettyTable()
-    x.field_names = ["Transport Type", "Distance"]
-    x.add_row(["Metro", metro_distance["subway_station"]])
-    x.add_row(["Bus Station", bus_station_distance["bus_station"]])
-    x.add_row(["Nearest Public Transport",
-              nearest_public_transport_distance["transit_station"]])
-    table_html = x.get_html_string()
-    return render(request, "the_main_page/tools/result/res_analyse_transport.html", {'table_html': table_html})
+        x = PrettyTable()
+        x.field_names = ["Transport Type", "Distance"]
+        x.add_row(["Metro", metro_distance.get("subway_station", "N/A")])
+        x.add_row(["Bus Station", bus_station_distance.get("bus_station", "N/A")])
+        x.add_row(["Nearest Public Transport",
+                  nearest_public_transport_distance.get("transit_station", "N/A")])
+        table_html = x.get_html_string()
+        return render(request, "the_main_page/tools/result/res_analyse_transport.html", {'table_html': table_html})
+    except Exception as e:
+        return HttpResponse(f"Error calculating transport distances: {e}", status=500)
+
